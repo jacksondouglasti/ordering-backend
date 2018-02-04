@@ -12,7 +12,7 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
-    public Client getById(Integer id) {
+    public Client findById(Integer id) {
         Client client = clientRepository.findOne(id);
 
         if (client == null) {

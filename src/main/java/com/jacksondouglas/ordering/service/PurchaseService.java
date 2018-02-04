@@ -12,7 +12,7 @@ public class PurchaseService {
     @Autowired
     private PurchaseRepository purchaseRepository;
 
-    public Purchase getById(Integer id) {
+    public Purchase findById(Integer id) {
         Purchase purchase = purchaseRepository.findOne(id);
 
         if (purchase == null) {

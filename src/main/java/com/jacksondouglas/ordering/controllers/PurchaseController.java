@@ -1,8 +1,6 @@
 package com.jacksondouglas.ordering.controllers;
 
-import com.jacksondouglas.ordering.domain.Client;
 import com.jacksondouglas.ordering.domain.Purchase;
-import com.jacksondouglas.ordering.service.ClientService;
 import com.jacksondouglas.ordering.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +17,8 @@ public class PurchaseController {
     private PurchaseService purchaseService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getById(@PathVariable Integer id) {
-        Purchase purchase = purchaseService.getById(id);
+    public ResponseEntity<Purchase> findById(@PathVariable Integer id) {
+        Purchase purchase = purchaseService.findById(id);
         return ResponseEntity.ok(purchase);
     }
 }
