@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,16 +45,16 @@ public class CategoryController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> save(@RequestBody Category category) {
-        category = categoryService.save(category);
+    public ResponseEntity<Void> save(@Valid @RequestBody CategoryDTO categoryDTO) {
+        Category category = categoryService.save(categoryService.fromDTO(categoryDTO));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(category.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody Category category, @PathVariable Integer id) {
-        category.setId(id);
-        categoryService.update(category);
+    public ResponseEntity<Void> update(@Valid @RequestBody CategoryDTO categoryDTO, @PathVariable Integer id) {
+        categoryDTO.setId(id);
+        categoryService.update(categoryService.fromDTO(categoryDTO));
         return ResponseEntity.noContent().build();
     }
 

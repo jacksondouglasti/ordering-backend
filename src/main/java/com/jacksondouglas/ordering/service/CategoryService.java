@@ -1,6 +1,7 @@
 package com.jacksondouglas.ordering.service;
 
 import com.jacksondouglas.ordering.domain.Category;
+import com.jacksondouglas.ordering.dto.CategoryDTO;
 import com.jacksondouglas.ordering.exception.DataIntegrityException;
 import com.jacksondouglas.ordering.exception.ObjectNotFoundException;
 import com.jacksondouglas.ordering.repository.CategoryRepository;
@@ -54,5 +55,9 @@ public class CategoryService {
         } catch (DataIntegrityViolationException ex) {
             throw new DataIntegrityException("It's not possible to delete a Category that has Products.");
         }
+    }
+
+    public Category fromDTO(CategoryDTO categoryDTO) {
+        return new Category(categoryDTO.getId(), categoryDTO.getName());
     }
 }
