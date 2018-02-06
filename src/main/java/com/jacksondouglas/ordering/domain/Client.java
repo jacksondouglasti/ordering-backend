@@ -19,7 +19,7 @@ public class Client implements Serializable {
     private String cpfCnpj;
     private Integer type;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Address> addresses = new ArrayList<>();
 
     @ElementCollection
@@ -38,7 +38,7 @@ public class Client implements Serializable {
         this.name = name;
         this.email = email;
         this.cpfCnpj = cpfCnpj;
-        this.type = type.getId();
+        this.type = (type == null) ? null : type.getId();
     }
 
     public Integer getId() {

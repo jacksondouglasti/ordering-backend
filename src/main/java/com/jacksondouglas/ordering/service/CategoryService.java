@@ -44,8 +44,9 @@ public class CategoryService {
     }
 
     public Category update(Category category) {
-        findById(category.getId());
-        return categoryRepository.save(category);
+        Category curr = findById(category.getId());
+        curr.setName(category.getName());
+        return categoryRepository.save(curr);
     }
 
     public void delete(Integer id) {
