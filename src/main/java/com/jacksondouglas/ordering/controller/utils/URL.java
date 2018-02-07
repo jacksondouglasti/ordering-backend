@@ -1,4 +1,4 @@
-package com.jacksondouglas.ordering.controllers.utils;
+package com.jacksondouglas.ordering.controller.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

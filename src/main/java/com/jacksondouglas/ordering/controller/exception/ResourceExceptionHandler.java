@@ -1,4 +1,4 @@
-package com.jacksondouglas.ordering.controllers.exception;
+package com.jacksondouglas.ordering.controller.exception;
 
 import com.jacksondouglas.ordering.exception.DataIntegrityException;
 import com.jacksondouglas.ordering.exception.ObjectNotFoundException;

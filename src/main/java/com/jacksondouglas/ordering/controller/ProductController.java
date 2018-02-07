@@ -1,9 +1,9 @@
-package com.jacksondouglas.ordering.controllers;
+package com.jacksondouglas.ordering.controller;
 
-import com.jacksondouglas.ordering.controllers.utils.URL;
+import com.jacksondouglas.ordering.controller.utils.URL;
 import com.jacksondouglas.ordering.domain.Product;
 import com.jacksondouglas.ordering.dto.ProductDTO;
-import com.jacksondouglas.ordering.service.ProductService;
+import com.jacksondouglas.ordering.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
 
     @Autowired
-    private ProductService productService;
+    private IProductService productService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Product> findById(@PathVariable Integer id) {

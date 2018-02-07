@@ -1,11 +1,9 @@
 package com.jacksondouglas.ordering.service.validation;
 
-import com.jacksondouglas.ordering.controllers.exception.FieldMessage;
+import com.jacksondouglas.ordering.controller.exception.FieldMessage;
 import com.jacksondouglas.ordering.domain.Client;
-import com.jacksondouglas.ordering.domain.enums.ClientType;
 import com.jacksondouglas.ordering.dto.ClientDTO;
 import com.jacksondouglas.ordering.repository.ClientRepository;
-import com.jacksondouglas.ordering.service.validation.utils.BR;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerMapping;
 

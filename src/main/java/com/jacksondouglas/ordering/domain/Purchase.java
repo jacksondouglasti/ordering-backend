@@ -3,6 +3,8 @@ package com.jacksondouglas.ordering.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Entity
@@ -102,5 +104,30 @@ public class Purchase implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        final NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        final StringBuffer sb = new StringBuffer();
+        sb.append("Purchase number: ");
+        sb.append(getId());
+        sb.append(", Instant: ");
+        sb.append(sdf.format(getInstant()));
+        sb.append(", Client: ");
+        sb.append(getClient().getName());
+        sb.append(", Payment State: ");
+        sb.append(getPayment().getState().getDesc());
+        sb.append("\nDetails:\n");
+
+        for (PurchaseItem item : getItems()) {
+            sb.append(item.toString());
+        }
+
+        sb.append("Total: ");
+        sb.append(nf.format(getTotal()));
+        sb.append("\n");
+        return sb.toString();
     }
 }

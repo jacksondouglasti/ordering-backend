@@ -1,4 +1,4 @@
-package com.jacksondouglas.ordering.service;
+package com.jacksondouglas.ordering.service.impl;
 
 import com.jacksondouglas.ordering.domain.Address;
 import com.jacksondouglas.ordering.domain.City;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ClientService {
+public class ClientService implements com.jacksondouglas.ordering.service.IClientService {
 
     @Autowired
     private ClientRepository clientRepository;
@@ -32,6 +32,7 @@ public class ClientService {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Override
     public Client findById(Integer id) {
         Client client = clientRepository.findOne(id);
 
@@ -41,15 +42,18 @@ public class ClientService {
         return client;
     }
 
+    @Override
     public List<Client> findAll() {
         return clientRepository.findAll();
     }
 
+    @Override
     public Page<Client> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = new PageRequest(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return clientRepository.findAll(pageRequest);
     }
 
+    @Override
     public Client save(Client client) {
         client.setId(null);
         client = clientRepository.save(client);
@@ -57,6 +61,7 @@ public class ClientService {
         return client;
     }
 
+    @Override
     public Client update(Client client) {
         Client curr = findById(client.getId());
         curr.setName(client.getName());
@@ -65,6 +70,7 @@ public class ClientService {
         return clientRepository.save(curr);
     }
 
+    @Override
     public void delete(Integer id) {
         findById(id);
         try {
@@ -74,10 +80,12 @@ public class ClientService {
         }
     }
 
+    @Override
     public Client fromDTO(ClientDTO clientDTO) {
         return new Client(clientDTO.getId(), clientDTO.getName(), clientDTO.getEmail(), null, null);
     }
 
+    @Override
     public Client fromDTO(ClientNewDTO clientNewDTO) {
         Client client = new Client(null, clientNewDTO.getName(), clientNewDTO.getEmail(), clientNewDTO.getCpfCnpj(), ClientType.toEnum(clientNewDTO.getType()));
         City city = cityRepository.findOne(clientNewDTO.getCityId());

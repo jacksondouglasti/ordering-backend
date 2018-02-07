@@ -1,4 +1,4 @@
-package com.jacksondouglas.ordering.service;
+package com.jacksondouglas.ordering.service.impl;
 
 import com.jacksondouglas.ordering.domain.Category;
 import com.jacksondouglas.ordering.dto.CategoryDTO;
@@ -15,11 +15,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CategoryService {
+public class CategoryService implements com.jacksondouglas.ordering.service.ICategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Override
     public Category findById(Integer id) {
         Category category = categoryRepository.findOne(id);
 
@@ -29,26 +30,31 @@ public class CategoryService {
         return category;
     }
 
+    @Override
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
 
+    @Override
     public Page<Category> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
         PageRequest pageRequest = new PageRequest(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
         return categoryRepository.findAll(pageRequest);
     }
 
+    @Override
     public Category save(Category category) {
         category.setId(null);
         return categoryRepository.save(category);
     }
 
+    @Override
     public Category update(Category category) {
         Category curr = findById(category.getId());
         curr.setName(category.getName());
         return categoryRepository.save(curr);
     }
 
+    @Override
     public void delete(Integer id) {
         findById(id);
         try {
@@ -58,6 +64,7 @@ public class CategoryService {
         }
     }
 
+    @Override
     public Category fromDTO(CategoryDTO categoryDTO) {
         return new Category(categoryDTO.getId(), categoryDTO.getName());
     }

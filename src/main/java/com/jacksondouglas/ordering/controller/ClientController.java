@@ -1,9 +1,9 @@
-package com.jacksondouglas.ordering.controllers;
+package com.jacksondouglas.ordering.controller;
 
 import com.jacksondouglas.ordering.domain.Client;
 import com.jacksondouglas.ordering.dto.ClientDTO;
 import com.jacksondouglas.ordering.dto.ClientNewDTO;
-import com.jacksondouglas.ordering.service.ClientService;
+import com.jacksondouglas.ordering.service.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class ClientController {
 
     @Autowired
-    private ClientService clientService;
+    private IClientService clientService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Client> findById(@PathVariable Integer id) {

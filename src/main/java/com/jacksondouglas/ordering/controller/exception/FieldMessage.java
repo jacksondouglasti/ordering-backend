@@ -1,4 +1,4 @@
-package com.jacksondouglas.ordering.controllers.exception;
+package com.jacksondouglas.ordering.controller.exception;
 
 import java.io.Serializable;
 

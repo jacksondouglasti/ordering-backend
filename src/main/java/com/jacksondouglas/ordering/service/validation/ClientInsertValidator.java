@@ -1,6 +1,6 @@
 package com.jacksondouglas.ordering.service.validation;
 
-import com.jacksondouglas.ordering.controllers.exception.FieldMessage;
+import com.jacksondouglas.ordering.controller.exception.FieldMessage;
 import com.jacksondouglas.ordering.domain.Client;
 import com.jacksondouglas.ordering.domain.enums.ClientType;
 import com.jacksondouglas.ordering.dto.ClientNewDTO;

@@ -1,8 +1,8 @@
-package com.jacksondouglas.ordering.controllers;
+package com.jacksondouglas.ordering.controller;
 
 import com.jacksondouglas.ordering.domain.Category;
 import com.jacksondouglas.ordering.dto.CategoryDTO;
-import com.jacksondouglas.ordering.service.CategoryService;
+import com.jacksondouglas.ordering.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class CategoryController {
 
     @Autowired
-    private CategoryService categoryService;
+    private ICategoryService categoryService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Category> findById(@PathVariable Integer id) {
