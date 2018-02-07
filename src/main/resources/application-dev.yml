@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    platform: mysql
+    url: jdbc:mysql://localhost:3306/ordering
+    username: root
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
