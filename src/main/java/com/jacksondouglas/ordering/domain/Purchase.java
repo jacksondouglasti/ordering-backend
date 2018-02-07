@@ -2,6 +2,7 @@ package com.jacksondouglas.ordering.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Entity
@@ -36,6 +37,10 @@ public class Purchase implements Serializable {
         this.instant = instant;
         this.client = client;
         this.deliveryAddress = deliveryAddress;
+    }
+
+    public BigDecimal getTotal() {
+        return items.stream().map(v -> v.getSubTotal()).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public Integer getId() {
