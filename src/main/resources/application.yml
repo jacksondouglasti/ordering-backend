@@ -9,3 +9,11 @@ default:
 jwt:
   secret: HereComesTheSecretToSignThePassword
   expiration: 86400000
+
+aws:
+  access_key_id:
+  secret_access_key:
+
+s3:
+  bucket:
+  region:

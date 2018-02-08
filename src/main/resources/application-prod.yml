@@ -1,7 +1,7 @@
 spring:
   datasource:
     platform: mysql
-    url: mysql://b5745f2838c2d9:d4ca17e2@us-cdbr-iron-east-05.cleardb.net/heroku_eb931c3dfc57e59?reconnect=true
+    url:
   jpa:
     hibernate:
       ddl-auto: none
