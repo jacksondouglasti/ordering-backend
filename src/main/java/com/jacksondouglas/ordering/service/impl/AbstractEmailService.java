@@ -1,5 +1,6 @@
 package com.jacksondouglas.ordering.service.impl;
 
+import com.jacksondouglas.ordering.domain.Client;
 import com.jacksondouglas.ordering.domain.Purchase;
 import com.jacksondouglas.ordering.service.EmailService;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,22 @@ public abstract class AbstractEmailService implements EmailService {
         sm.setSubject("Purchase confirmed! Id: " + purchase.getId());
         sm.setSentDate(new Date(System.currentTimeMillis()));
         sm.setText(purchase.toString());
+        return sm;
+    }
+
+    @Override
+    public void sendNewPasswordEmail(Client client, String newPass) {
+        SimpleMailMessage sm = prepareNewPassword(client, newPass);
+        sendEmail(sm);
+    }
+
+    protected SimpleMailMessage prepareNewPassword(Client client, String newPass) {
+        SimpleMailMessage sm = new SimpleMailMessage();
+        sm.setTo(client.getEmail());
+        sm.setFrom(sender);
+        sm.setSubject("New password");
+        sm.setSentDate(new Date(System.currentTimeMillis()));
+        sm.setText("New password: " + newPass);
         return sm;
     }
 }

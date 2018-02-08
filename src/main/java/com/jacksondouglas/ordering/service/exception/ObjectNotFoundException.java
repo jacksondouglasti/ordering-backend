@@ -1,4 +1,4 @@
-package com.jacksondouglas.ordering.exception;
+package com.jacksondouglas.ordering.service.exception;
 
 public class ObjectNotFoundException extends RuntimeException {
 

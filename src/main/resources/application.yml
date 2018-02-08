@@ -1,7 +1,11 @@
 spring:
   profiles:
-    active: dev
+    active: test
 
 default:
   sender: email@gmail.com
   recipient: email@gmail.com
+
+jwt:
+  secret: HereComesTheSecretToSignThePassword
+  expiration: 86400000

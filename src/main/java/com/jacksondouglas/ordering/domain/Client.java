@@ -2,10 +2,13 @@ package com.jacksondouglas.ordering.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jacksondouglas.ordering.domain.enums.ClientType;
+import com.jacksondouglas.ordering.domain.enums.Profile;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Entity
 public class Client implements Serializable {
@@ -19,6 +22,10 @@ public class Client implements Serializable {
     private String cpfCnpj;
     private Integer type;
 
+    @JsonIgnore
+
+    private String password;
+
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Address> addresses = new ArrayList<>();
 
@@ -26,19 +33,26 @@ public class Client implements Serializable {
     @CollectionTable(name = "PHONENUMBER")
     private Set<String> phonenumbers = new HashSet<>();
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PROFILES")
+    private Set<Integer> profiles = new HashSet<>();
+
     @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Purchase> purchases = new ArrayList<>();
 
     public Client() {
+        addProfile(Profile.CLIENT);
     }
 
-    public Client(Integer id, String name, String email, String cpfCnpj, ClientType type) {
+    public Client(Integer id, String name, String email, String cpfCnpj, ClientType type, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.cpfCnpj = cpfCnpj;
         this.type = (type == null) ? null : type.getId();
+        this.password = password;
+        addProfile(Profile.CLIENT);
     }
 
     public Integer getId() {
@@ -81,6 +95,14 @@ public class Client implements Serializable {
         this.type = type.getId();
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public List<Address> getAddresses() {
         return Collections.unmodifiableList(addresses);
     }
@@ -103,6 +125,14 @@ public class Client implements Serializable {
 
     public void setPurchases(Purchase purchase) {
         this.purchases.add(purchase);
+    }
+
+    public Set<Profile> getProfiles() {
+        return profiles.stream().map(p -> Profile.toEnum(p)).collect(Collectors.toSet());
+    }
+
+    public void addProfile(Profile profile) {
+        this.profiles.add(profile.getId());
     }
 
     @Override

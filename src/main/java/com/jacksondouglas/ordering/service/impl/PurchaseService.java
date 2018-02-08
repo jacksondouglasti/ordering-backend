@@ -1,20 +1,26 @@
 package com.jacksondouglas.ordering.service.impl;
 
+import com.jacksondouglas.ordering.domain.Client;
 import com.jacksondouglas.ordering.domain.PaymentWithBoleto;
 import com.jacksondouglas.ordering.domain.Purchase;
 import com.jacksondouglas.ordering.domain.PurchaseItem;
 import com.jacksondouglas.ordering.domain.enums.PaymentState;
-import com.jacksondouglas.ordering.exception.ObjectNotFoundException;
+import com.jacksondouglas.ordering.security.UserSS;
+import com.jacksondouglas.ordering.service.IPurchaseService;
+import com.jacksondouglas.ordering.service.exception.ObjectNotFoundException;
 import com.jacksondouglas.ordering.repository.*;
 import com.jacksondouglas.ordering.service.EmailService;
 import com.jacksondouglas.ordering.service.IBoletoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 
 @Service
-public class PurchaseService implements com.jacksondouglas.ordering.service.IPurchaseService {
+public class PurchaseService implements IPurchaseService {
 
     @Autowired
     private PurchaseRepository purchaseRepository;
@@ -74,5 +80,15 @@ public class PurchaseService implements com.jacksondouglas.ordering.service.IPur
         emailService.sendPurchaseConfirmationEmail(purchase);
 
         return purchase;
+    }
+
+    @Override
+    public Page<Purchase> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        UserSS user = UserService.authenticated();
+
+        PageRequest pageRequest = new PageRequest(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+
+        Client client = clientRepository.findOne(user.getId());
+        return purchaseRepository.findByClient(client, pageRequest);
     }
 }

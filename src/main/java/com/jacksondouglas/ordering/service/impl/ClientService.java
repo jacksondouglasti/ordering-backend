@@ -4,10 +4,13 @@ import com.jacksondouglas.ordering.domain.Address;
 import com.jacksondouglas.ordering.domain.City;
 import com.jacksondouglas.ordering.domain.Client;
 import com.jacksondouglas.ordering.domain.enums.ClientType;
+import com.jacksondouglas.ordering.domain.enums.Profile;
 import com.jacksondouglas.ordering.dto.ClientDTO;
 import com.jacksondouglas.ordering.dto.ClientNewDTO;
-import com.jacksondouglas.ordering.exception.DataIntegrityException;
-import com.jacksondouglas.ordering.exception.ObjectNotFoundException;
+import com.jacksondouglas.ordering.security.UserSS;
+import com.jacksondouglas.ordering.service.exception.AuthorizationException;
+import com.jacksondouglas.ordering.service.exception.DataIntegrityException;
+import com.jacksondouglas.ordering.service.exception.ObjectNotFoundException;
 import com.jacksondouglas.ordering.repository.AddressRepository;
 import com.jacksondouglas.ordering.repository.CityRepository;
 import com.jacksondouglas.ordering.repository.ClientRepository;
@@ -16,6 +19,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,8 +36,17 @@ public class ClientService implements com.jacksondouglas.ordering.service.IClien
     @Autowired
     private AddressRepository addressRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public Client findById(Integer id) {
+        UserSS user = UserService.authenticated();
+
+        if (user == null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
+            throw new AuthorizationException("Access denied");
+        }
+
         Client client = clientRepository.findOne(id);
 
         if (client == null) {
@@ -82,12 +95,12 @@ public class ClientService implements com.jacksondouglas.ordering.service.IClien
 
     @Override
     public Client fromDTO(ClientDTO clientDTO) {
-        return new Client(clientDTO.getId(), clientDTO.getName(), clientDTO.getEmail(), null, null);
+        return new Client(clientDTO.getId(), clientDTO.getName(), clientDTO.getEmail(), null, null, null);
     }
 
     @Override
     public Client fromDTO(ClientNewDTO clientNewDTO) {
-        Client client = new Client(null, clientNewDTO.getName(), clientNewDTO.getEmail(), clientNewDTO.getCpfCnpj(), ClientType.toEnum(clientNewDTO.getType()));
+        Client client = new Client(null, clientNewDTO.getName(), clientNewDTO.getEmail(), clientNewDTO.getCpfCnpj(), ClientType.toEnum(clientNewDTO.getType()), bCryptPasswordEncoder.encode(clientNewDTO.getPassword()));
         City city = cityRepository.findOne(clientNewDTO.getCityId());
         Address address = new Address(null, clientNewDTO.getStreet(), clientNewDTO.getNumber(), clientNewDTO.getNeighborhood(), clientNewDTO.getZipcode(), client, city);
 

@@ -2,7 +2,7 @@ package com.jacksondouglas.ordering.service.impl;
 
 import com.jacksondouglas.ordering.domain.Category;
 import com.jacksondouglas.ordering.domain.Product;
-import com.jacksondouglas.ordering.exception.ObjectNotFoundException;
+import com.jacksondouglas.ordering.service.exception.ObjectNotFoundException;
 import com.jacksondouglas.ordering.repository.CategoryRepository;
 import com.jacksondouglas.ordering.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
