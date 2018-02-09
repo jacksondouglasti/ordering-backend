@@ -1,10 +1,21 @@
 spring:
   profiles:
     active: test
+  http:
+    multipart:
+      max-file-size: 5Mb
+      max-request-size: 5Mb
 
 default:
   sender: email@gmail.com
   recipient: email@gmail.com
+
+img:
+  prefix:
+    client:
+      profile: cp
+  profile:
+    size: 200
 
 jwt:
   secret: HereComesTheSecretToSignThePassword

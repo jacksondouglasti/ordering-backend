@@ -23,7 +23,6 @@ public class Client implements Serializable {
     private Integer type;
 
     @JsonIgnore
-
     private String password;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)

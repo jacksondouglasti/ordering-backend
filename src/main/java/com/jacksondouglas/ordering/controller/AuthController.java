@@ -3,7 +3,7 @@ package com.jacksondouglas.ordering.controller;
 import com.jacksondouglas.ordering.dto.EmailDTO;
 import com.jacksondouglas.ordering.security.JWTUtil;
 import com.jacksondouglas.ordering.security.UserSS;
-import com.jacksondouglas.ordering.service.AuthService;
+import com.jacksondouglas.ordering.service.IAuthService;
 import com.jacksondouglas.ordering.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class AuthController {
     private JWTUtil jwtUtil;
 
     @Autowired
-    private AuthService authService;
+    private IAuthService IAuthService;
 
     @RequestMapping(value = "/refresh_token", method = RequestMethod.POST)
     public ResponseEntity<Void> refreshToken(HttpServletResponse response) {
@@ -35,7 +35,7 @@ public class AuthController {
 
     @RequestMapping(value = "/forgot", method = RequestMethod.POST)
     public ResponseEntity<Void> forgot(@Valid @RequestBody EmailDTO emailDTO) {
-        authService.sendNewPassword(emailDTO.getEmail());
+        IAuthService.sendNewPassword(emailDTO.getEmail());
         return ResponseEntity.noContent().build();
     }
 }

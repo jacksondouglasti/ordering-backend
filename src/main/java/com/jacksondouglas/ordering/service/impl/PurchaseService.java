@@ -9,7 +9,7 @@ import com.jacksondouglas.ordering.security.UserSS;
 import com.jacksondouglas.ordering.service.IPurchaseService;
 import com.jacksondouglas.ordering.service.exception.ObjectNotFoundException;
 import com.jacksondouglas.ordering.repository.*;
-import com.jacksondouglas.ordering.service.EmailService;
+import com.jacksondouglas.ordering.service.IEmailService;
 import com.jacksondouglas.ordering.service.IBoletoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,7 +41,7 @@ public class PurchaseService implements IPurchaseService {
     private ClientRepository clientRepository;
 
     @Autowired
-    private EmailService emailService;
+    private IEmailService IEmailService;
 
     @Override
     public Purchase findById(Integer id) {
@@ -77,7 +77,7 @@ public class PurchaseService implements IPurchaseService {
         }
 
         purchaseItemRepository.save(purchase.getItems());
-        emailService.sendPurchaseConfirmationEmail(purchase);
+        IEmailService.sendPurchaseConfirmationEmail(purchase);
 
         return purchase;
     }

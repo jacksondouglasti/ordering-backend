@@ -1,7 +1,7 @@
 package com.jacksondouglas.ordering.config;
 
-import com.jacksondouglas.ordering.service.EmailService;
-import com.jacksondouglas.ordering.service.impl.SmtpEmailService;
+import com.jacksondouglas.ordering.service.IEmailService;
+import com.jacksondouglas.ordering.service.impl.SmtpIEmailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Profile;
 public class DevConfig {
 
     @Bean
-    public EmailService emailService() {
-        return new SmtpEmailService();
+    public IEmailService emailService() {
+        return new SmtpIEmailService();
     }
 }

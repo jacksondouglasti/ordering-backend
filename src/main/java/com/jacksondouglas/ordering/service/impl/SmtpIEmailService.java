@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
-public class SmtpEmailService extends AbstractEmailService {
+public class SmtpIEmailService extends AbstractIEmailService {
 
-    private static final Logger log = LoggerFactory.getLogger(SmtpEmailService.class);
+    private static final Logger log = LoggerFactory.getLogger(SmtpIEmailService.class);
 
     @Autowired
     private MailSender mailSender;

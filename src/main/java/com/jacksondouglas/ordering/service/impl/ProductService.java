@@ -2,6 +2,7 @@ package com.jacksondouglas.ordering.service.impl;
 
 import com.jacksondouglas.ordering.domain.Category;
 import com.jacksondouglas.ordering.domain.Product;
+import com.jacksondouglas.ordering.service.IProductService;
 import com.jacksondouglas.ordering.service.exception.ObjectNotFoundException;
 import com.jacksondouglas.ordering.repository.CategoryRepository;
 import com.jacksondouglas.ordering.repository.ProductRepository;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProductService implements com.jacksondouglas.ordering.service.IProductService {
+public class ProductService implements IProductService {
 
     @Autowired
     private ProductRepository productRepository;

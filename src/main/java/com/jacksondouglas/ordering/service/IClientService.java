@@ -4,7 +4,9 @@ import com.jacksondouglas.ordering.domain.Client;
 import com.jacksondouglas.ordering.dto.ClientDTO;
 import com.jacksondouglas.ordering.dto.ClientNewDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
 import java.util.List;
 
 public interface IClientService {
@@ -23,4 +25,6 @@ public interface IClientService {
     Client fromDTO(ClientDTO clientDTO);
 
     Client fromDTO(ClientNewDTO clientNewDTO);
+
+    URI uploadProfilePicture(MultipartFile multipartFile);
 }

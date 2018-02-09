@@ -1,7 +1,8 @@
-package com.jacksondouglas.ordering.service;
+package com.jacksondouglas.ordering.service.impl;
 
 import com.jacksondouglas.ordering.domain.Client;
 import com.jacksondouglas.ordering.repository.ClientRepository;
+import com.jacksondouglas.ordering.service.IEmailService;
 import com.jacksondouglas.ordering.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 
 @Service
-public class AuthService {
+public class AuthService implements com.jacksondouglas.ordering.service.IAuthService {
 
     @Autowired
     private ClientRepository clientRepository;
@@ -19,10 +20,11 @@ public class AuthService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private EmailService emailService;
+    private IEmailService IEmailService;
 
     private Random rand = new Random();
 
+    @Override
     public void sendNewPassword(String email) {
         Client client = clientRepository.findByEmail(email);
 
@@ -34,7 +36,7 @@ public class AuthService {
         client.setPassword(bCryptPasswordEncoder.encode(newPass));
 
         clientRepository.save(client);
-        emailService.sendNewPasswordEmail(client, newPass);
+        IEmailService.sendNewPasswordEmail(client, newPass);
     }
 
     private String newPassword() {

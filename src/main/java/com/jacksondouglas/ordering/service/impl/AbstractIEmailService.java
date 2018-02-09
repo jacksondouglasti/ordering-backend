@@ -2,13 +2,13 @@ package com.jacksondouglas.ordering.service.impl;
 
 import com.jacksondouglas.ordering.domain.Client;
 import com.jacksondouglas.ordering.domain.Purchase;
-import com.jacksondouglas.ordering.service.EmailService;
+import com.jacksondouglas.ordering.service.IEmailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 
 import java.util.Date;
 
-public abstract class AbstractEmailService implements EmailService {
+public abstract class AbstractIEmailService implements IEmailService {
 
     @Value("${default.sender}")
     private String sender;
