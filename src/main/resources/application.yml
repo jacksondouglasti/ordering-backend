@@ -3,8 +3,8 @@ spring:
     active: test
   http:
     multipart:
-      max-file-size: 5Mb
-      max-request-size: 5Mb
+      max-file-size: 10Mb
+      max-request-size: 10Mb
 
 default:
   sender: email@gmail.com

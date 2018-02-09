@@ -149,4 +149,20 @@ public class ClientService implements IClientService {
 
         return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
     }
+
+    @Override
+    public Client findByEmail(String email) {
+        UserSS user = UserService.authenticated();
+
+        if (user == null ||!user.hasRole(Profile.ADMIN) && !email.equals(user.getUsername())) {
+            throw new AuthorizationException("Access denied");
+        }
+
+        Client client = clientRepository.findOne(user.getId());
+
+        if (client == null) {
+            throw new ObjectNotFoundException("Object not found! Id: " + user.getId() + ", Type: " + Client.class.getName());
+        }
+        return client;
+    }
 }

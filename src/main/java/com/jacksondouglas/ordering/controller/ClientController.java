@@ -49,6 +49,11 @@ public class ClientController {
         return ResponseEntity.ok(clientsDTO);
     }
 
+    @RequestMapping(value = "/email", method = RequestMethod.GET)
+    public ResponseEntity<Client> findByEmail(@RequestParam(value = "email") String email) {
+        return ResponseEntity.ok(clientService.findByEmail(email));
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> save(@Valid @RequestBody ClientNewDTO clientNewDTO) {
         Client client = clientService.save(clientService.fromDTO(clientNewDTO));

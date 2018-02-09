@@ -27,4 +27,6 @@ public interface IClientService {
     Client fromDTO(ClientNewDTO clientNewDTO);
 
     URI uploadProfilePicture(MultipartFile multipartFile);
+
+    Client findByEmail(String email);
 }
