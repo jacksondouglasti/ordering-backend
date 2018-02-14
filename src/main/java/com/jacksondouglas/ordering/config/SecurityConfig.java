@@ -1,5 +1,6 @@
 package com.jacksondouglas.ordering.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jacksondouglas.ordering.security.JWTAuthenticationFilter;
 import com.jacksondouglas.ordering.security.JWTAuthorizationFilter;
 import com.jacksondouglas.ordering.security.JWTUtil;
@@ -36,6 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private ObjectMapper mapper;
+
     private static final String[] PUBLIC_MATCHERS = {
         "/h2-console/**"
     };
@@ -62,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated();
-        http.addFilter(new JWTAuthenticationFilter((authenticationManager()), jwtUtil));
+        http.addFilter(new JWTAuthenticationFilter((authenticationManager()), jwtUtil, mapper));
         http.addFilter(new JWTAuthorizationFilter((authenticationManager()), jwtUtil, userDetailsService));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

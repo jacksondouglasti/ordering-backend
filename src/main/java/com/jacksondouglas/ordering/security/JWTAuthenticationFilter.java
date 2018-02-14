@@ -2,11 +2,14 @@ package com.jacksondouglas.ordering.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jacksondouglas.ordering.dto.CredentialsDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -20,10 +23,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private AuthenticationManager authenticationManager;
     private JWTUtil jwtUtil;
+    private ObjectMapper mapper;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, ObjectMapper mapper) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+        this.mapper = mapper;
     }
 
     @Override
@@ -45,5 +50,20 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String token = jwtUtil.generateToken(username);
         response.addHeader("Authorization", "Bearer " + token);
         response.addHeader("access-control-expose-headers", "Authorization");
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
+        SecurityContextHolder.clearContext();
+
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+        if (e instanceof BadCredentialsException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationFailed(HttpStatus.UNAUTHORIZED.value(), "Invalid username or password", System.currentTimeMillis(), e.getMessage(), null));
+        } else  {
+            mapper.writeValue(response.getWriter(), new AuthenticationFailed(HttpStatus.UNAUTHORIZED.value(), "Authentication Failed: Bad credentials", System.currentTimeMillis(), e.getMessage(), null));
+        }
+
     }
 }

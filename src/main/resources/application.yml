@@ -28,3 +28,6 @@ aws:
 s3:
   bucket:
   region:
+
+server:
+  context-path: /ordering

@@ -2,6 +2,7 @@ package com.jacksondouglas.ordering.service.impl;
 
 import com.jacksondouglas.ordering.domain.Client;
 import com.jacksondouglas.ordering.repository.ClientRepository;
+import com.jacksondouglas.ordering.service.IAuthService;
 import com.jacksondouglas.ordering.service.IEmailService;
 import com.jacksondouglas.ordering.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 
 @Service
-public class AuthService implements com.jacksondouglas.ordering.service.IAuthService {
+public class AuthService implements IAuthService {
 
     @Autowired
     private ClientRepository clientRepository;
